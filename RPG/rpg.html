@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+<title>RPG</title>
+<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="rpgstyle.css">
+	<script src="jquery-3.2.1.min.js"></script>
+	<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+		<div class = "fighter joe" id = 0 >
+		<img src="averagejoe.png" width="200" height="133">
+		<br>Health:<div class="health">10</div>
+		<br>Defence:<div class="defence">7</div>
+		<br>Attack:<div class="attack">10</div>
+		</div>
+
+		<div class = "fighter sam" id = 1>
+		<img src="stealthysam.png" width="200" height="133">
+		<br>Health:<div class="health">5</div>
+		<br>Defence:<div class="defence">10</div>
+		<br>Attack:<div class="attack">15</div>
+		</div>
+
+		<div class = "fighter brian" id = 2>
+		<img src="buffbrian.png" width="200" height="133">
+		<br>Health:<div class="health">15</div>
+		<br>Defence:<div class="defence">7</div>
+		<br>Attack:<div class="attack">5</div>
+		</div>
+
+		<div class = "fighter henry" id = 3>
+			<img src="hammerhenry.jpg" width="200" height="133">
+			<br>Health:<div class="health">15</div>
+			<br>Defence:<div class="defence">0</div>
+			<br>Attack:<div class="attack">10</div>
+		</div>
+	</div>
+
+	<button type="button" class="btn btn-danger">Attack!</button>
+
+	<div class="toparena"></div>
+	<div class="namesit"></div>
+	<div class="leftb"></div>
+	<div class="rightb"></div>
+	<div class="hero-name">Choose Your Fighter!</div>
+	<div class="enemy-name">Choose Your Enemy!</div>
+	<div class="botarena"></div>
+	<div class="vs"><strong>VS.</strong></div>
+	<div class="winner"></div>
+
+
+	
+	
+
+<script>
+
+ $(document).ready(function() {
+ var hid;
+ var eid;
+var enemy;
+var hero;
+var enemyHurtHealth;
+var heroHurtHealth;
+var characters = [];
+var x = 0;
+var y = 0;
+var z = 0;
+var hit;
+var hitEnemy;
+var block;
+var char1 = {
+name: "Average-Joe",
+health: 10, 
+defense: 7,
+attack: 10
+};
+var char2 = {
+name: "Stealthy-Sam",
+health: 5, 
+defense: 10,
+attack: 15
+};
+var char3 = {
+name: "Buff-Brian",
+health: 15, 
+defense: 7,
+attack: 5
+};
+var char4 = {
+name: "Hammer-Henry",
+health: 15, 
+defense: 0,
+attack: 10
+};
+characters[0]=char1;
+characters[1]=char2;
+characters[2]=char3;
+characters[3]=char4;
+
+
+
+$(".fighter").click(function(){
+	if(x == 0){
+
+	$(this).animate({top: "370px"});
+	$(this).animate({left: "375px"});
+	hid = $(this).attr("id")
+	x++
+	hero = characters[hid]
+	$(".health",this).html(hero.health);
+	$(".defence",this).html(hero.defence);
+	$(".attack",this).html(hero.attack);
+	$(".hero-name").html(hero.name)
+	}else if(x == 1){
+
+	eid = $(this).attr("id")
+	$(this).animate({top: "370px"});
+	$(this).animate({left: "785px"});	
+	x++
+	enemy = characters[eid]
+	$(".enemy-name").html(enemy.name)
+	$(".health",this).html(enemy.health);
+	$(".defence",this).html(enemy.defence);
+	$(".attack",this).html(enemy.attack);
+	console.log(enemy.name)
+	}
+});
+
+$(".btn").click(function(){
+	if(hero.health > 0 && enemy.health > 0){
+	var randNumbHitHero = Math.floor((Math.random() * 100) + 1);
+		while (z == 0){
+			if (randNumbHitHero <= hero.attack){
+				hit = randNumbHitHero
+						if(enemy.defence >= hit){
+							hit=0
+							z++
+							}else{
+								enemyHurtHealth = hit - enemy.defence;
+								z++ 
+				}
+			}else{
+					randNumbHitHero = Math.floor((Math.random() * 100) + 1);
+			}
+		}
+		enemyHurtHealth = enemy.health - hit;
+		enemy.health = enemyHurtHealth;
+
+		var randNumbHitEnemy = Math.floor((Math.random() * 100) + 1);
+		while (y == 0){
+			if (randNumbHitEnemy <= enemy.attack){
+				hitEnemy = randNumbHitEnemy
+						if(enemy.defence >= hitEnemy){
+							hitEnemy = 0;
+							y++;
+							}else{
+								 heroHurtHealth = hitEnemy - hero.defence;
+								y++ 
+				}
+			}else{
+					randNumbHitEnemy = Math.floor((Math.random() * 100) + 1);
+			}
+		}
+		heroHurtHealth = hero.health - hitEnemy;
+		hero.health = heroHurtHealth;
+		$(".health", "#" + hid).html(hero.health)
+		$(".health", "#" + eid).html(enemy.health)
+
+	}else if(hero.health <= 0 && enemy.health <= 0){
+		$(".winner").html("You tied!")
+	    $(".health", "#" + hid).html(hero.health)
+		$(".health", "#" + eid).html(enemy.health)
+
+	}else if (hero.health > 0 && enemy.health <= 0){
+		$(".winner").html("You win!")
+		$(".health", "#" + hid).html(hero.health)
+		$(".health", "#" + eid).html(enemy.health)
+
+	}else{
+		$(".winner").html("You Lose!")
+		$(".health", "#" + hid).html(hero.health)
+		$(".health", "#" + eid).html(enemy.health)
+
+	}
+	
+	
+});
+});
+</script>
+</body>
+</html>
